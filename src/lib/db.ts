@@ -237,40 +237,47 @@ const DEFAULT_CATEGORIES: Category[] = [
 ];
 
 function ensureLocalStore(): StoreSchema {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(STORE_FILE)) {
-    const initialData: StoreSchema = {
-      products: DEFAULT_PRODUCTS,
-      settings: DEFAULT_SETTINGS,
-      waitlist: []
-    };
-    fs.writeFileSync(STORE_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
-    return initialData;
-  }
+  const defaultData: StoreSchema = {
+    products: DEFAULT_PRODUCTS,
+    settings: DEFAULT_SETTINGS,
+    waitlist: []
+  };
 
   try {
+    if (!fs.existsSync(DATA_DIR)) {
+      try {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+      } catch {
+        // Read-only filesystem in serverless
+      }
+    }
+
+    if (!fs.existsSync(STORE_FILE)) {
+      try {
+        fs.writeFileSync(STORE_FILE, JSON.stringify(defaultData, null, 2), 'utf-8');
+      } catch {
+        // Read-only filesystem in serverless
+      }
+      return defaultData;
+    }
+
     const raw = fs.readFileSync(STORE_FILE, 'utf-8');
     return JSON.parse(raw);
-  } catch (err) {
-    console.error('Failed to parse local store, reinitializing:', err);
-    const initialData: StoreSchema = {
-      products: DEFAULT_PRODUCTS,
-      settings: DEFAULT_SETTINGS,
-      waitlist: []
-    };
-    fs.writeFileSync(STORE_FILE, JSON.stringify(initialData, null, 2), 'utf-8');
-    return initialData;
+  } catch {
+    return defaultData;
   }
 }
 
 function saveLocalStore(data: StoreSchema) {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(STORE_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch {
+    // In serverless hosting (Netlify/Vercel), the filesystem is read-only (/var/task/...).
+    // Persistent Neon PostgreSQL is the primary storage source of truth; safe to ignore local disk write.
   }
-  fs.writeFileSync(STORE_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 function cleanDbUrl(rawUrl?: string): string {
