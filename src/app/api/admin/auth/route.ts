@@ -4,7 +4,12 @@ import { cookies } from 'next/headers';
 export async function POST(request: Request) {
   try {
     const { password } = await request.json();
-    const envPassword = process.env.ADMIN_PASSWORD || 'bagg3d2026';
+    const envPassword = process.env.ADMIN_PASSWORD;
+
+    if (!envPassword) {
+      console.error('ADMIN_PASSWORD environment variable is not set');
+      return NextResponse.json({ success: false, error: 'Server authentication misconfigured' }, { status: 500 });
+    }
 
     if (password === envPassword) {
       const cookieStore = await cookies();
