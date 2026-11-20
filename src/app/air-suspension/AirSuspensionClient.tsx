@@ -90,20 +90,25 @@ export default function AirSuspensionClient({ settings, featuredProducts = [] }:
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 px-4 bg-zinc-950 rounded-2xl border border-zinc-900 max-w-xl mx-auto space-y-4">
-            <Wrench className="w-10 h-10 text-zinc-600 mx-auto" />
-            <h2 className="text-lg font-bold text-white uppercase tracking-wider">
-              No Air Kits Currently Placed
+          <div className="text-center py-24 px-4 bg-zinc-950 rounded-2xl border border-zinc-900 max-w-xl mx-auto space-y-4 shadow-2xl">
+            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto text-amber-400">
+              <Wrench className="w-6 h-6 animate-pulse" />
+            </div>
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold tracking-widest uppercase">
+              COMING SOON
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wider">
+              Air Kits Dropping Soon
             </h2>
-            <p className="text-xs text-zinc-400 leading-relaxed font-mono">
-              Add products in the Admin Dashboard and select &ldquo;Feature on AIR SUSPENSION Page&rdquo; to populate live kits here immediately.
+            <p className="text-xs text-zinc-400 leading-relaxed font-mono max-w-md mx-auto">
+              Our precision air suspension systems, billet reservoirs, and digital management systems are currently in pre-release preparation.
             </p>
             <div className="pt-2">
               <Link
                 href="/merch"
-                className="inline-block px-5 py-2.5 bg-white text-black text-xs font-mono font-bold uppercase rounded-lg hover:bg-zinc-200 transition"
+                className="inline-block px-6 py-3 bg-white text-black text-xs font-mono font-bold uppercase rounded-lg hover:bg-zinc-200 transition"
               >
-                Browse Merch Catalog →
+                Browse Merch Catalog &rarr;
               </Link>
             </div>
           </div>

@@ -148,18 +148,29 @@ export default function MerchClient({ initialProducts, initialCategories = [] }:
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="py-24 text-center text-zinc-500 space-y-3">
-            <p className="text-lg font-semibold text-zinc-300">No products found</p>
-            <p className="text-xs text-zinc-500">Try adjusting your search terms or filter selection.</p>
-            <button
-              onClick={() => {
-                setSelectedCategory('all');
-                setSearchQuery('');
-              }}
-              className="mt-2 px-4 py-2 bg-zinc-900 border border-zinc-800 rounded text-xs text-zinc-300 hover:text-white"
-            >
-              Reset Filters
-            </button>
+          <div className="py-24 text-center max-w-xl mx-auto space-y-4 bg-zinc-950 rounded-2xl border border-zinc-900 p-8 shadow-2xl">
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold tracking-widest uppercase">
+              COMING SOON
+            </div>
+            <p className="text-xl font-bold text-white uppercase tracking-wider">
+              {searchQuery ? 'No Products Matching Search' : 'Collection In Production'}
+            </p>
+            <p className="text-xs text-zinc-400 font-mono leading-relaxed">
+              {searchQuery 
+                ? 'We could not find any merchandise matching your search criteria.' 
+                : 'New limited seasonal apparel drops and accessories are currently being prepared.'}
+            </p>
+            {(selectedCategory !== 'all' || searchQuery) && (
+              <button
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                }}
+                className="mt-2 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-xs font-mono font-bold uppercase text-white transition"
+              >
+                Reset Filters &rarr;
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
