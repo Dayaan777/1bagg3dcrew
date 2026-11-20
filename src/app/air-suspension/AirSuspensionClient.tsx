@@ -23,8 +23,20 @@ export default function AirSuspensionClient({ settings, featuredProducts = [] }:
     <div className="min-h-screen bg-black text-white pt-6 pb-24">
       {/* AIR SUSPENSION PRODUCTS CATALOG - DIRECTLY BELOW NAVBAR */}
       <section className="px-4 max-w-7xl mx-auto" id="products">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+        {/* Section Header with Official Air Suspension Badge */}
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+          <div className="relative inline-block mx-auto mb-2 group">
+            <div className="absolute -inset-2 bg-gradient-to-r from-zinc-700/30 via-white/20 to-zinc-700/30 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition duration-700" />
+            <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-2 border-zinc-800 shadow-2xl bg-black mx-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/air-suspension-badge.png"
+                alt="1Bagg3dCrew Air Suspension Division Badge"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+          </div>
+
           <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-widest block">
             DIVISION 02 • PERFORMANCE CHASSIS
           </span>
