@@ -59,9 +59,11 @@ export default function CategoriesShowcase({ settings }: CategoriesShowcaseProps
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
 
             <div className="relative z-10 text-center space-y-2">
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-mono font-bold tracking-wider uppercase mb-1">
-                {airStatus}
-              </span>
+              {airStatus && airStatus.trim() !== '' && airStatus.toUpperCase() !== 'COMING SOON' && (
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-mono font-bold tracking-wider uppercase mb-1">
+                  {airStatus}
+                </span>
+              )}
               <h3 className="text-2xl sm:text-4xl font-black text-white uppercase tracking-widest group-hover:tracking-[0.25em] transition-all">
                 AIR SUSPENSION
               </h3>

@@ -91,9 +91,11 @@ export default function HeroSection({ settings }: HeroSectionProps) {
           >
             <Gauge className="w-4 h-4 text-zinc-400 group-hover:text-amber-400 transition-colors" />
             <span>Air Suspension</span>
-            <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-mono rounded">
-              {airStatus}
-            </span>
+            {airStatus && airStatus.trim() !== '' && airStatus.toUpperCase() !== 'COMING SOON' && (
+              <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-mono rounded">
+                {airStatus}
+              </span>
+            )}
           </Link>
         </div>
 

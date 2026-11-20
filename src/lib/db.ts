@@ -190,7 +190,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   announcement: '',
   heroTagline: 'LIVE YOUR LIFE ON AIR',
   heroSubtitle: 'Streetwear curated for the underground car scene & premium air suspension engineering. Built by car enthusiasts, for car enthusiasts.',
-  airSuspensionStatus: 'COMING SOON',
+  airSuspensionStatus: '',
   releaseDate: 'EST. 2026',
   contactEmail: 'info@1bagg3dcrew.com',
   instagramHandle: '@1bagg3d.crew',
