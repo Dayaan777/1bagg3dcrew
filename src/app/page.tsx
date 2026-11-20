@@ -31,16 +31,23 @@ export default async function HomePage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-white/[0.03] rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          {/* Official 1Bagg3d Crew Speed Motion Emblem */}
-          <div className="relative group cursor-pointer mb-6 transform hover:scale-[1.03] transition duration-500 ease-out">
-            <div className="absolute -inset-4 bg-gradient-to-r from-zinc-700/20 via-white/15 to-zinc-700/20 rounded-full blur-xl opacity-40 group-hover:opacity-80 transition duration-700" />
-            <div className="relative w-44 sm:w-56 md:w-64 aspect-[4/3] flex items-center justify-center">
+          {/* Official 1Bagg3d Crew Speed Motion Emblem with Dynamic Living Presentation */}
+          <div className="relative group cursor-pointer mb-6 animate-float-gentle">
+            {/* Deep atmospheric glow */}
+            <div className="absolute -inset-6 bg-gradient-to-r from-zinc-700/25 via-white/20 to-zinc-700/25 rounded-full blur-2xl opacity-40 group-hover:opacity-85 transition-opacity duration-700" />
+            
+            <div className="relative w-48 sm:w-60 md:w-72 aspect-[4/3] flex items-center justify-center overflow-hidden rounded-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo-speed.png"
                 alt="1Bagg3dCrew Motorsport Division Insignia"
-                className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(255,255,255,0.12)]"
+                className="w-full h-full object-contain filter drop-shadow-[0_8px_30px_rgba(255,255,255,0.18)] transition-transform duration-500 group-hover:scale-105"
               />
+
+              {/* Diagonal Light Sheen Sweep Overlay to make the metallic lettering gleam */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-white/15 to-transparent animate-sheen" />
+              </div>
             </div>
           </div>
 

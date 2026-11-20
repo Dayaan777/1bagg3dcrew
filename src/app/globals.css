@@ -41,3 +41,31 @@ body {
 .animate-spin-slow:hover {
   animation-play-state: paused;
 }
+
+/* Subtle hovering / breathing animation for motorsport graphic badge */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-0.5deg);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+/* Chrome shine sweep reflection */
+@keyframes sheenSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  20%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-sheen {
+  animation: sheenSweep 6s ease-in-out infinite;
+}
