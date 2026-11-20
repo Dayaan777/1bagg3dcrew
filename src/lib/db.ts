@@ -556,8 +556,10 @@ export async function deleteProduct(id: string): Promise<boolean> {
     try {
       const sql = getNeonSql();
       await sql`DELETE FROM products WHERE id = ${id};`;
-    } catch (e) {
-      console.warn('Neon deleteProduct error:', e);
+      return true;
+    } catch (e: any) {
+      console.error('Neon deleteProduct error:', e);
+      throw new Error('Failed to delete product from database: ' + (e?.message || 'DB Error'));
     }
   }
 

@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { getProductById, deleteProduct } from '@/lib/db';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

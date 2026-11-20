@@ -2,6 +2,9 @@ import React, { Suspense } from 'react';
 import { getProducts, getCategories } from '@/lib/db';
 import MerchClient from './MerchClient';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function MerchPage() {
   const [products, categories] = await Promise.all([
     getProducts(),

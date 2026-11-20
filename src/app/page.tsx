@@ -5,8 +5,8 @@ import FeaturedProducts from '@/components/FeaturedProducts';
 import { getProducts, getSettings } from '@/lib/db';
 import Link from 'next/link';
 
-
-
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function HomePage() {
   const [products, settings] = await Promise.all([
