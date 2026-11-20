@@ -336,6 +336,16 @@ async function initNeonTables(sql: any) {
       );
     `;
 
+    await sql`
+      CREATE TABLE IF NOT EXISTS uploaded_images (
+        id TEXT PRIMARY KEY,
+        filename TEXT NOT NULL,
+        mime_type TEXT NOT NULL,
+        data TEXT NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `;
+
     // Create an initialized marker table to ensure seeding only happens once on first setup
     await sql`
       CREATE TABLE IF NOT EXISTS app_state (
@@ -724,4 +734,52 @@ export async function deleteCategory(id: string): Promise<boolean> {
   }
 
   return true;
+}
+
+// -------------------------------------------------------------
+// UPLOADED IMAGES CLOUD STORAGE
+// -------------------------------------------------------------
+export async function saveUploadedImage(id: string, filename: string, mimeType: string, base64Data: string): Promise<string> {
+  if (hasNeonDb()) {
+    try {
+      const sql = getNeonSql();
+      await initNeonTables(sql);
+      await sql`
+        INSERT INTO uploaded_images (id, filename, mime_type, data)
+        VALUES (${id}, ${filename}, ${mimeType}, ${base64Data})
+        ON CONFLICT (id) DO UPDATE SET
+          filename = EXCLUDED.filename,
+          mime_type = EXCLUDED.mime_type,
+          data = EXCLUDED.data;
+      `;
+      return `/api/images/${id}`;
+    } catch (e) {
+      console.warn('Neon saveUploadedImage fallback:', e);
+    }
+  }
+
+  return `/api/images/${id}`;
+}
+
+export async function getUploadedImage(id: string): Promise<{ filename: string; mimeType: string; buffer: Buffer } | null> {
+  if (hasNeonDb()) {
+    try {
+      const sql = getNeonSql();
+      await initNeonTables(sql);
+      const rows = (await sql`SELECT * FROM uploaded_images WHERE id = ${id} LIMIT 1;`) as any[];
+      if (rows && rows.length > 0) {
+        const row = rows[0];
+        const buffer = Buffer.from(row.data, 'base64');
+        return {
+          filename: row.filename,
+          mimeType: row.mime_type,
+          buffer
+        };
+      }
+    } catch (e) {
+      console.warn('Neon getUploadedImage fallback:', e);
+    }
+  }
+
+  return null;
 }

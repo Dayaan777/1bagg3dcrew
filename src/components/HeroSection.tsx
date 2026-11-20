@@ -47,17 +47,17 @@ export default function HeroSection({ settings }: HeroSectionProps) {
           <div className="relative p-1.5 rounded-full bg-gradient-to-b from-zinc-300 via-zinc-800 to-zinc-950 shadow-2xl shadow-black">
             <div className="p-1 rounded-full bg-black/90">
               <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-zinc-800/80 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] transition-transform duration-500 group-hover:scale-[1.03]">
-                {/* User's uploaded 1Bagg3dCrew Logo */}
+                {/* 1Bagg3dCrew Logo with smooth spinning animation like a vinyl / spinning wheel */}
                 <Image
-                  src="/logo.jpg"
+                  src="/logo.png"
                   alt="1Bagg3dCrew - Live Your Life On Air"
                   fill
                   priority
-                  className="object-cover"
+                  className="object-cover animate-spin-slow will-change-transform"
                 />
                 
                 {/* Subtle glass reflection shimmer overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none rounded-full" />
               </div>
             </div>
           </div>
