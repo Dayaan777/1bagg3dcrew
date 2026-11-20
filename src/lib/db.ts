@@ -276,9 +276,8 @@ function saveLocalStore(data: StoreSchema) {
 function cleanDbUrl(rawUrl?: string): string {
   if (!rawUrl) return '';
   let url = rawUrl.trim();
-  if ((url.startsWith('"') && url.endsWith('"')) || (url.startsWith("'") && url.endsWith("'"))) {
-    url = url.slice(1, -1).trim();
-  }
+  // Strip any wrapping quotes, escaped quotes, or brackets
+  url = url.replace(/^["'`\\]+|["'`\\]+$/g, '').trim();
   return url;
 }
 
