@@ -25,24 +25,44 @@ export default async function HomePage() {
       {/* 3. Categories: MERCH & AIR SUSPENSION KIT (as COMING SOON) */}
       <CategoriesShowcase settings={settings} />
 
-      {/* 4. Brand Manifesto Statement */}
-      <section className="bg-black py-20 px-4 border-t border-zinc-900 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <span className="text-zinc-500 font-mono text-xs tracking-[0.3em] uppercase">
+      {/* 4. Brand Manifesto Statement with Speed Graphic Insignia */}
+      <section className="relative bg-black py-24 px-4 border-t border-zinc-900 overflow-hidden text-center">
+        {/* Subtle Ambient Radial Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-white/[0.03] rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+          {/* Official 1Bagg3d Crew Speed Motion Emblem */}
+          <div className="relative group cursor-pointer mb-6 transform hover:scale-[1.03] transition duration-500 ease-out">
+            <div className="absolute -inset-4 bg-gradient-to-r from-zinc-700/20 via-white/15 to-zinc-700/20 rounded-full blur-xl opacity-40 group-hover:opacity-80 transition duration-700" />
+            <div className="relative w-44 sm:w-56 md:w-64 aspect-[4/3] flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-speed.png"
+                alt="1Bagg3dCrew Motorsport Division Insignia"
+                className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(255,255,255,0.12)]"
+              />
+            </div>
+          </div>
+
+          <span className="text-zinc-500 font-mono text-[11px] tracking-[0.35em] uppercase mb-4 block">
             THE 1BAGG3D MANIFESTO
           </span>
-          <blockquote className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-zinc-100 leading-snug">
-            “STATIC GETS STUCK. AIR GETS RESPECT. LIVE YOUR LIFE ON AIR.”
+
+          <blockquote className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight text-zinc-100 leading-tight max-w-3xl mb-6">
+            “STATIC GETS STUCK. AIR GETS RESPECT. <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-500">LIVE YOUR LIFE ON AIR.</span>”
           </blockquote>
-          <p className="text-zinc-400 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+
+          <p className="text-zinc-400 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed mb-8 font-normal">
             Built from scratch for the stance enthusiasts who demand spotless wheel fitment at the meet and smooth highway cruising on the way back home.
           </p>
-          <div className="pt-4">
+
+          <div>
             <Link
               href="/about"
-              className="text-xs font-mono text-zinc-400 hover:text-white underline underline-offset-4 tracking-widest uppercase"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs font-mono font-bold uppercase tracking-widest text-zinc-300 hover:text-white transition shadow-lg"
             >
-              Read Full Brand Story & Mission &rarr;
+              <span>Read Full Brand Story & Mission</span>
+              <span>&rarr;</span>
             </Link>
           </div>
         </div>

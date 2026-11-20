@@ -69,7 +69,19 @@ export default async function AboutPage() {
             <p>{storyP3}</p>
           </div>
 
-          <div className="p-8 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-6">
+          <div className="p-8 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-6 relative overflow-hidden">
+            {/* Speed Insignia Stamp */}
+            <div className="flex justify-end -mb-2">
+              <div className="w-28 sm:w-36 opacity-75 hover:opacity-100 transition duration-300">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo-speed.png"
+                  alt="1Bagg3dCrew Speed Mark"
+                  className="w-full h-auto object-contain filter drop-shadow-[0_4px_12px_rgba(255,255,255,0.08)]"
+                />
+              </div>
+            </div>
+
             <h3 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-zinc-400" />
               <span>The Core Pillars</span>
