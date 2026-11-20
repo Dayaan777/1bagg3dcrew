@@ -44,16 +44,16 @@ export default function HeroSection({ settings }: HeroSectionProps) {
           <div className="absolute -inset-4 bg-gradient-to-r from-zinc-600/30 via-white/20 to-zinc-600/30 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition duration-700 animate-pulse" />
 
           {/* Chrome/Metallic Border Ring with bevel */}
-          <div className="relative p-1.5 rounded-full bg-gradient-to-b from-zinc-300 via-zinc-800 to-zinc-950 shadow-2xl shadow-black">
-            <div className="p-1 rounded-full bg-black/90">
-              <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-zinc-800/80 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] transition-transform duration-500 group-hover:scale-[1.03]">
+          <div className="relative p-1 sm:p-1.5 rounded-full bg-gradient-to-b from-zinc-300 via-zinc-800 to-zinc-950 shadow-2xl shadow-black">
+            <div className="p-0.5 sm:p-1 rounded-full bg-black">
+              <div className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-full overflow-hidden border border-zinc-800/80 sm:border-2 shadow-[inset_0_0_30px_rgba(255,255,255,0.1)] transition-transform duration-500 group-hover:scale-[1.03]">
                 {/* 1Bagg3dCrew Logo with smooth spinning animation like a vinyl / spinning wheel */}
                 <Image
                   src="/logo.png"
                   alt="1Bagg3dCrew - Live Your Life On Air"
                   fill
                   priority
-                  className="object-cover animate-spin-slow will-change-transform"
+                  className="object-cover scale-[1.03] sm:scale-100 animate-spin-slow will-change-transform"
                 />
                 
                 {/* Subtle glass reflection shimmer overlay */}
