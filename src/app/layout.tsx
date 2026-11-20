@@ -4,6 +4,7 @@ import { CartProvider } from '@/context/CartContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
+import BackgroundAudio from '@/components/BackgroundAudio';
 import { getSettings } from '@/lib/db';
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default async function RootLayout({
         <CartProvider>
           <Navbar announcement={settings.announcement} />
           <CartDrawer />
+          <BackgroundAudio />
           <main className="flex-1 w-full bg-black">
             {children}
           </main>
