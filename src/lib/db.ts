@@ -273,13 +273,24 @@ function saveLocalStore(data: StoreSchema) {
   fs.writeFileSync(STORE_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+function cleanDbUrl(rawUrl?: string): string {
+  if (!rawUrl) return '';
+  let url = rawUrl.trim();
+  if ((url.startsWith('"') && url.endsWith('"')) || (url.startsWith("'") && url.endsWith("'"))) {
+    url = url.slice(1, -1).trim();
+  }
+  return url;
+}
+
 // Check if Neon DB is configured
 function hasNeonDb(): boolean {
-  return !!process.env.DATABASE_URL && process.env.DATABASE_URL.trim().length > 0;
+  const url = cleanDbUrl(process.env.DATABASE_URL);
+  return url.length > 0;
 }
 
 function getNeonSql(): any {
-  return neon(process.env.DATABASE_URL!) as any;
+  const url = cleanDbUrl(process.env.DATABASE_URL);
+  return neon(url) as any;
 }
 
 // Initialize tables if using Neon
@@ -753,12 +764,13 @@ export async function saveUploadedImage(id: string, filename: string, mimeType: 
           data = EXCLUDED.data;
       `;
       return `/api/images/${id}`;
-    } catch (e) {
-      console.warn('Neon saveUploadedImage fallback:', e);
+    } catch (e: any) {
+      console.error('Neon saveUploadedImage failure:', e);
+      throw new Error('Database failed to save image: ' + (e?.message || 'DB Error'));
     }
   }
 
-  return `/api/images/${id}`;
+  throw new Error('Database is not configured. Please ensure DATABASE_URL is set in environment variables.');
 }
 
 export async function getUploadedImage(id: string): Promise<{ filename: string; mimeType: string; buffer: Buffer } | null> {

@@ -30,15 +30,18 @@ export async function POST(request: Request) {
     const publicUrl = await saveUploadedImage(imageId, file.name, mimeType, base64Data);
 
     // Also attempt writing to local public/uploads for local development convenience if filesystem is writable
+    // Wrapped strictly in try/catch to never fail the request on serverless platforms (Netlify / Vercel)
     try {
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
+      if (process.env.NODE_ENV !== 'production') {
+        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+        if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+        const cleanBase = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${cleanBase}_${Date.now()}${ext}`;
+        const filePath = path.join(uploadsDir, filename);
+        fs.writeFileSync(filePath, buffer);
       }
-      const cleanBase = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-      const filename = `${cleanBase}_${Date.now()}${ext}`;
-      const filePath = path.join(uploadsDir, filename);
-      fs.writeFileSync(filePath, buffer);
     } catch {
       // Serverless environments have read-only filesystems; ignore local disk write errors
     }
