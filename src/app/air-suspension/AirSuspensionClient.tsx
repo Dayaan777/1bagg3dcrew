@@ -25,15 +25,27 @@ export default function AirSuspensionClient({ settings, featuredProducts = [] }:
       <section className="px-4 max-w-7xl mx-auto" id="products">
         {/* Section Header with Official Air Suspension Badge */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <div className="relative inline-block mx-auto mb-2 group">
-            <div className="absolute -inset-2 bg-gradient-to-r from-zinc-700/30 via-white/20 to-zinc-700/30 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition duration-700" />
-            <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-2 border-zinc-800 shadow-2xl bg-black mx-auto">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/air-suspension-badge.png"
-                alt="1Bagg3dCrew Air Suspension Division Badge"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+          {/* Animated Turntable Emblem Presentation */}
+          <div className="relative inline-block mx-auto mb-3 group cursor-pointer">
+            {/* Outer glowing pulsing halo */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-zinc-600/30 via-white/20 to-zinc-600/30 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition duration-700 animate-pulse" />
+
+            {/* Chrome/Metallic Border Ring with bevel */}
+            <div className="relative p-1 sm:p-1.5 rounded-full bg-gradient-to-b from-zinc-300 via-zinc-800 to-zinc-950 shadow-2xl shadow-black">
+              <div className="p-0.5 sm:p-1 rounded-full bg-black">
+                <div className="relative w-44 h-44 sm:w-56 sm:h-56 rounded-full overflow-hidden border border-zinc-800/80 sm:border-2 shadow-[inset_0_0_25px_rgba(255,255,255,0.1)] transition-transform duration-500 group-hover:scale-[1.03]">
+                  {/* Rotating Mechanical Air Suspension Division Badge */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/air-suspension-badge.png"
+                    alt="1Bagg3dCrew Air Suspension Division Badge"
+                    className="w-full h-full object-cover scale-[1.02] animate-spin-slow will-change-transform"
+                  />
+                  
+                  {/* Subtle glass reflection shimmer overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none rounded-full" />
+                </div>
+              </div>
             </div>
           </div>
 
