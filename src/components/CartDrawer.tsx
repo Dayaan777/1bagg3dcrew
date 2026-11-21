@@ -7,9 +7,6 @@ import Link from 'next/link';
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal, totalCount } = useCart();
-  const freeShippingThreshold = 100;
-  const progressPercent = Math.min(100, (subtotal / freeShippingThreshold) * 100);
-  const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
 
   if (!isOpen) return null;
 
@@ -38,26 +35,6 @@ export default function CartDrawer() {
             >
               <X className="w-5 h-5" />
             </button>
-          </div>
-
-          {/* Free Shipping Progress */}
-          <div className="px-6 py-3 bg-zinc-900/60 border-b border-zinc-800/60">
-            <div className="text-xs text-zinc-300 font-medium mb-1.5 flex justify-between">
-              <span>
-                {remainingForFreeShipping === 0 ? (
-                  <span className="text-emerald-400 font-semibold">🎉 You unlocked FREE standard shipping!</span>
-                ) : (
-                  <span>Add <strong className="text-white">${remainingForFreeShipping.toFixed(2)}</strong> for FREE shipping</span>
-                )}
-              </span>
-              <span className="text-zinc-500">{Math.round(progressPercent)}%</span>
-            </div>
-            <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-zinc-200 to-white h-full transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
           </div>
 
           {/* Items List */}
