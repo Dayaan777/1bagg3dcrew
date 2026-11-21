@@ -576,7 +576,13 @@ export async function getSettings(): Promise<SiteSettings> {
       await initNeonTables(sql);
       const res = (await sql`SELECT value FROM site_settings WHERE key = 'main';`) as any[];
       if (res && res[0]?.value) {
-        return typeof res[0].value === 'string' ? JSON.parse(res[0].value) : res[0].value;
+        const dbSettings = typeof res[0].value === 'string' ? JSON.parse(res[0].value) : res[0].value;
+        // Merge with DEFAULT_SETTINGS so newly introduced keys (like shipping, terms, privacy)
+        // are always populated with real defaults when missing from an older DB record
+        return {
+          ...DEFAULT_SETTINGS,
+          ...dbSettings
+        };
       }
     } catch (e) {
       console.warn('Neon getSettings fallback to local store:', e);
@@ -584,13 +590,16 @@ export async function getSettings(): Promise<SiteSettings> {
   }
 
   const store = ensureLocalStore();
-  return store.settings || DEFAULT_SETTINGS;
+  return {
+    ...DEFAULT_SETTINGS,
+    ...(store.settings || {})
+  };
 }
 
 export async function updateSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {
-  const store = ensureLocalStore();
+  const current = await getSettings();
   const updated: SiteSettings = {
-    ...store.settings,
+    ...current,
     ...settings
   };
 
@@ -603,11 +612,13 @@ export async function updateSettings(settings: Partial<SiteSettings>): Promise<S
         VALUES ('main', ${JSON.stringify(updated)})
         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
       `;
-    } catch (e) {
-      console.warn('Neon updateSettings fallback to local store:', e);
+    } catch (e: any) {
+      console.error('Neon updateSettings error:', e);
+      throw new Error('Failed to save settings to database: ' + (e?.message || 'DB Error'));
     }
   }
 
+  const store = ensureLocalStore();
   store.settings = updated;
   saveLocalStore(store);
   return updated;

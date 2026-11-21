@@ -28,7 +28,7 @@ export default function AdminClient({ initialProducts, initialSettings, initialW
   const [settings, setSettings] = useState<SiteSettings>(initialSettings);
   const [waitlist, setWaitlist] = useState<WaitlistLead[]>(initialWaitlist);
   const [categories, setCategories] = useState<Category[]>(initialCategories);
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'about' | 'shipping' | 'settings'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'shipping' | 'settings'>('products');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
   // Categories CRUD State
@@ -51,7 +51,6 @@ export default function AdminClient({ initialProducts, initialSettings, initialW
   // Settings Save State
   const [savingSettings, setSavingSettings] = useState(false);
   const [settingsSavedMessage, setSettingsSavedMessage] = useState(false);
-  const [aboutSavedMessage, setAboutSavedMessage] = useState(false);
 
   // Check auth status on mount
   useEffect(() => {
@@ -354,27 +353,6 @@ export default function AdminClient({ initialProducts, initialSettings, initialW
     }
   };
 
-  const handleSaveAbout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSavingSettings(true);
-    try {
-      const res = await fetch('/api/settings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setAboutSavedMessage(true);
-        setTimeout(() => setAboutSavedMessage(false), 3000);
-      }
-    } catch {
-      alert('Failed to save About Us page content');
-    } finally {
-      setSavingSettings(false);
-    }
-  };
-
   // Render Login Screen if not authenticated
   if (isAuthenticated === null) {
     return (
@@ -506,18 +484,6 @@ export default function AdminClient({ initialProducts, initialSettings, initialW
           >
             <Tag className="w-4 h-4" />
             <span>Categories ({categories.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('about')}
-            className={`px-4 py-2 rounded-lg text-xs font-mono tracking-wider uppercase transition flex items-center gap-2 ${
-              activeTab === 'about'
-                ? 'bg-white text-black font-bold shadow-md'
-                : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            <span>Edit &quot;About Us&quot; Page</span>
           </button>
 
           <button
@@ -919,259 +885,7 @@ export default function AdminClient({ initialProducts, initialSettings, initialW
           </div>
         )}
 
-        {/* TAB 3: EDIT "ABOUT US" PAGE */}
-        {activeTab === 'about' && (
-          <div className="max-w-4xl space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold uppercase text-white">
-                  About Us Page Customizer
-                </h2>
-                <p className="text-xs text-zinc-400 font-mono mt-0.5">
-                  Customize the brand narrative, headline stories, core pillars, and headquarters contact details in real-time.
-                </p>
-              </div>
-
-              <Link
-                href="/about"
-                target="_blank"
-                className="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-mono flex items-center gap-1.5 border border-zinc-800 transition"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Preview About Page</span>
-              </Link>
-            </div>
-
-            {aboutSavedMessage && (
-              <div className="p-3.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono flex items-center gap-2">
-                <Check className="w-4 h-4" />
-                <span>&quot;About Us&quot; page updated live! Refresh the page to see changes.</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSaveAbout} className="bg-zinc-950 border border-zinc-850 rounded-xl p-6 sm:p-8 space-y-6 shadow-2xl">
-              
-              {/* Header Badge & Titles */}
-              <div className="space-y-4">
-                <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-400 border-b border-zinc-900 pb-2">
-                  1. Header Section
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                      Top Pill Badge
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.aboutBadge || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutBadge: e.target.value })}
-                      placeholder="EST. 2026 • GLOBAL CAR COLLECTIVE"
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                      Main Page Title
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.aboutTitle || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutTitle: e.target.value })}
-                      placeholder="THE 1BAGG3D STORY"
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Header Subtitle Narrative
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={settings.aboutSubtitle || ''}
-                    onChange={(e) => setSettings({ ...settings, aboutSubtitle: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* Origins & Story Narrative */}
-              <div className="space-y-4 pt-4 border-t border-zinc-900">
-                <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-400 border-b border-zinc-900 pb-2">
-                  2. Brand Origins & Story Paragraphs
-                </h3>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Story Heading
-                  </label>
-                  <input
-                    type="text"
-                    value={settings.aboutStoryHeading || ''}
-                    onChange={(e) => setSettings({ ...settings, aboutStoryHeading: e.target.value })}
-                    placeholder="Live Your Life On Air"
-                    className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Story Paragraph 1 (Origins)
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={settings.aboutStoryP1 || ''}
-                    onChange={(e) => setSettings({ ...settings, aboutStoryP1: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white leading-relaxed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Story Paragraph 2 (Problem & Frustration)
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={settings.aboutStoryP2 || ''}
-                    onChange={(e) => setSettings({ ...settings, aboutStoryP2: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white leading-relaxed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                    Story Paragraph 3 (Solution & Heavyweight Standard)
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={settings.aboutStoryP3 || ''}
-                    onChange={(e) => setSettings({ ...settings, aboutStoryP3: e.target.value })}
-                    className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* The Core Pillars */}
-              <div className="space-y-4 pt-4 border-t border-zinc-900">
-                <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-400 border-b border-zinc-900 pb-2">
-                  3. The 3 Core Pillars
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 1 Title</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar1Title || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar1Title: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 1 Description</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar1Desc || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar1Desc: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 2 Title</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar2Title || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar2Title: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 2 Description</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar2Desc || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar2Desc: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 3 Title</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar3Title || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar3Title: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">Pillar 3 Description</label>
-                    <input
-                      type="text"
-                      value={settings.aboutPillar3Desc || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutPillar3Desc: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Headquarters Contact */}
-              <div className="space-y-4 pt-4 border-t border-zinc-900">
-                <h3 className="text-xs font-mono uppercase tracking-widest text-zinc-400 border-b border-zinc-900 pb-2">
-                  4. Headquarters & Contact Info
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                      Section Heading
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.aboutContactHeading || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutContactHeading: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white font-mono"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-mono uppercase text-zinc-400 mb-1">
-                      Section Subtitle
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.aboutContactSub || ''}
-                      onChange={(e) => setSettings({ ...settings, aboutContactSub: e.target.value })}
-                      className="w-full bg-black border border-zinc-800 rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-white"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-zinc-900 flex justify-end">
-                <button
-                  type="submit"
-                  disabled={savingSettings}
-                  className="px-8 py-3 bg-white hover:bg-zinc-200 text-black font-extrabold text-xs font-mono uppercase tracking-wider rounded-lg transition shadow-lg flex items-center gap-2"
-                >
-                  <Save className="w-4 h-4" />
-                  <span>{savingSettings ? 'Saving...' : 'Save & Update About Us Page'}</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* TAB 4: SHIPPING INFO & POLICIES */}
+        {/* TAB 3: SHIPPING INFO & POLICIES */}
         {activeTab === 'shipping' && (
           <div className="max-w-4xl space-y-6">
             <div className="flex items-center justify-between">

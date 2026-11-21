@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { ArrowLeft, Truck, Clock, Globe, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
 import { getSettings } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'Shipping & Delivery Information | 1BAGG3DCREW',
   description: 'Worldwide tracked shipping guidelines, processing timelines, express courier partners, and return conditions.',

@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { ArrowLeft, FileText, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { getSettings } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'Terms of Service | 1BAGG3DCREW',
   description: 'Official terms of service, automotive performance equipment disclaimer, and merchandise sales agreements.',

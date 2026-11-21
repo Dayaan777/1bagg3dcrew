@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { ArrowLeft, Shield, Lock, Eye, CheckCircle2 } from 'lucide-react';
 import { getSettings } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'Privacy Policy | 1BAGG3DCREW',
   description: 'How 1Bagg3dCrew collects, protects, and handles customer data and checkout information.',
